@@ -18,15 +18,27 @@ public:
     running = true;
     xFrequency = pdMS_TO_TICKS(cycleTimeMs);
   }
- /**
+  /**
    * @brief set the task cycle time, in mS
    *
    */
   virtual void setRate(uint32_t cycleTimeMs) {
     xFrequency = pdMS_TO_TICKS(cycleTimeMs);
   }
-//   virtual void suspend(void) {}
-//   virtual void resume(void) {}
+
+  // does not really suspend but rather stops execution
+  // of task()
+  virtual void suspend(bool waitForAck = true) {
+    ack = false;
+    running = false;
+    if (waitForAck) {
+      while (!ack) {
+        vTaskDelay(pdMS_TO_TICKS(1));
+        // delay(1);
+      }
+    }
+  }
+  virtual void resume(void) { running = true; }
 
   /**
    * @brief Custom Implementation which is executing the provided method in a
@@ -38,6 +50,9 @@ public:
     while (true) {
       if (running) {
         task();
+      } else {
+        // we were suspended. Acknowledge
+        ack = true;
       }
       xWasDelayed = xTaskDelayUntil(&xLastWakeTime, xFrequency);
     }
@@ -55,7 +70,7 @@ public:
 
 protected:
   void (*task)() = nullptr;
-  bool running;
+  volatile bool running, ack;
   BaseType_t xWasDelayed;
   TickType_t xLastWakeTime;
   TickType_t xFrequency;
