@@ -34,7 +34,6 @@ public:
     if (waitForAck) {
       while (!ack) {
         vTaskDelay(pdMS_TO_TICKS(1));
-        // delay(1);
       }
     }
   }
