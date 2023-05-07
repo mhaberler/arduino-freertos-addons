@@ -16,3 +16,4 @@
 #include "thread.hpp"
 #include "workqueue.hpp"
 #include "critical.hpp"
+#include "cyclictask.hpp"
