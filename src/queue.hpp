@@ -130,7 +130,7 @@ class Queue {
          *  @param itemSize Size of an item in a queue.
          *  @note FreeRTOS queues use a memcpy / fixed size scheme for queues.
          */
-        Queue(UBaseType_t maxItems, UBaseType_t itemSize);
+        Queue(UBaseType_t maxItems, UBaseType_t itemSize, bool usePSRAM = false);
 
         /**
          *  Our destructor.
@@ -243,6 +243,10 @@ class Queue {
     //
     /////////////////////////////////////////////////////////////////////////
     protected:
+#ifdef ESP_PSRAM_ARENA
+        uint8_t *arena;
+        StaticQueue_t xStaticQueue;
+#endif
         /**
          *  FreeRTOS queue handle.
          */
