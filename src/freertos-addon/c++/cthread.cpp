@@ -177,6 +177,7 @@ bool Thread::Start()
   /// @return true if it could be started successfully
   bool Thread::Start(int core)
   {
+    core_ = core;
       //
       //  If the Scheduler is on, we need to lock before checking
       //  the ThreadStarted variable. We'll leverage the LockGuard 

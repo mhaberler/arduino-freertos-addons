@@ -132,6 +132,8 @@ class Thread {
         
 #ifdef ESP32
         bool Start(int core);
+
+        int  GetCore(void) { return core_;}
 #endif
         /**
          *  Our destructor. This must exist even if FreeRTOS is
@@ -372,6 +374,9 @@ class Thread {
     //
     /////////////////////////////////////////////////////////////////////////
     private:
+#ifdef ESP32
+        int core_ = -1;
+#endif
         /**
          *  Reference to the underlying task handle for this thread.
          *  Can be obtained from GetHandle().
