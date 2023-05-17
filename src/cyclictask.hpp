@@ -49,6 +49,7 @@ public:
     while (true) {
       if (running) {
         task();
+        taskYIELD();
       } else {
         // we were suspended. Acknowledge
         ack = true;
