@@ -38,6 +38,7 @@ public:
     }
   }
   virtual void resume(void) { running = true; }
+  virtual bool isRunning(void) { return running; }
 
   /**
    * @brief Custom Implementation which is executing the provided method in a
